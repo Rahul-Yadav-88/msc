@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useMemo, useRef, useState } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const SERVICES = [
   {
@@ -89,34 +89,31 @@ const SERVICES = [
       </svg>
     ),
   },
-]
+];
 
 function clamp(n, min, max) {
-  return Math.max(min, Math.min(max, n))
+  return Math.max(min, Math.min(max, n));
 }
 
 function ServiceCard({ item, index }) {
-  const ref = useRef(null)
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
-
-  const floatDelay = useMemo(() => (index % 3) * 0.25, [index])
+  const ref = useRef(null);
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
   const onMove = (e) => {
-    const el = ref.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
 
-    const px = (e.clientX - r.left) / r.width // 0..1
-    const py = (e.clientY - r.top) / r.height // 0..1
+    const px = (e.clientX - r.left) / r.width; // 0..1
+    const py = (e.clientY - r.top) / r.height; // 0..1
 
-    // rotate ranges
-    const ry = clamp((px - 0.5) * 14, -10, 10) // left/right
-    const rx = clamp((0.5 - py) * 14, -10, 10) // up/down
+    const ry = clamp((px - 0.5) * 14, -10, 10); // left/right
+    const rx = clamp((0.5 - py) * 14, -10, 10); // up/down
 
-    setTilt({ rx, ry })
-  }
+    setTilt({ rx, ry });
+  };
 
-  const onLeave = () => setTilt({ rx: 0, ry: 0 })
+  const onLeave = () => setTilt({ rx: 0, ry: 0 });
 
   return (
     <motion.div
@@ -126,7 +123,7 @@ function ServiceCard({ item, index }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {/* Outer perspective wrapper */}
+      {/* Perspective wrapper */}
       <div className="perspective-1000">
         <div
           ref={ref}
@@ -149,7 +146,7 @@ function ServiceCard({ item, index }) {
           </div>
 
           {/* Image */}
-          <div className="relative overflow-hidden rounded-none">
+          <div className="relative overflow-hidden">
             <div className="relative h-[170px] w-full md:h-[185px]">
               <Image
                 src={item.image}
@@ -174,7 +171,7 @@ function ServiceCard({ item, index }) {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 export default function ServicesSection() {
@@ -198,7 +195,7 @@ export default function ServicesSection() {
         </div>
       </div>
 
-      {/* CSS helpers (no tailwind config needed) */}
+      {/* ✅ Global helpers: works in Next.js app router */}
       <style jsx global>{`
         .perspective-1000 {
           perspective: 1000px;
@@ -207,32 +204,27 @@ export default function ServicesSection() {
           transform-style: preserve-3d;
           transition: transform 160ms ease, box-shadow 220ms ease;
           will-change: transform;
-          box-shadow: 0 0 0 rgba(0, 0, 0, 0);
           animation: floaty 4.8s ease-in-out infinite;
         }
-        /* stagger the float so cards don’t move together */
-        .service-card-float {
-          animation-delay: var(--float-delay, 0s);
-        }
 
-        /* Set delay per card via nth-child */
+        /* Stagger float */
         .grid > :nth-child(1) .service-card-float {
-          --float-delay: 0s;
+          animation-delay: 0s;
         }
         .grid > :nth-child(2) .service-card-float {
-          --float-delay: 0.25s;
+          animation-delay: 0.25s;
         }
         .grid > :nth-child(3) .service-card-float {
-          --float-delay: 0.5s;
+          animation-delay: 0.5s;
         }
         .grid > :nth-child(4) .service-card-float {
-          --float-delay: 0.15s;
+          animation-delay: 0.15s;
         }
         .grid > :nth-child(5) .service-card-float {
-          --float-delay: 0.4s;
+          animation-delay: 0.4s;
         }
         .grid > :nth-child(6) .service-card-float {
-          --float-delay: 0.65s;
+          animation-delay: 0.65s;
         }
 
         @keyframes floaty {
@@ -246,5 +238,5 @@ export default function ServicesSection() {
         }
       `}</style>
     </section>
-  )
+  );
 }
