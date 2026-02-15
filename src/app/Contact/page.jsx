@@ -1,11 +1,8 @@
 import React from 'react'
-import Home from './Home/page'
-
+import Contact from '../../components/Contact/Contact'
 const page = () => {
   return (
-    <div>
-      <Home/>
-    </div>
+    <div><Contact /></div>
   )
 }
 
