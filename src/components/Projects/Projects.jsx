@@ -7,12 +7,42 @@ import { motion } from "framer-motion"
 export default function OurProjects({
   title = "Our Projects",
   projects = [
-    { location: "California, USA", name: "Aurora Business Park", image: "/projects/p1.jpg" },
-    { location: "New York, USA", name: "Riverbend Eco Park", image: "/projects/p2.jpg" },
-    { location: "New Jersey, USA", name: "EcoNest Apartments", image: "/projects/p3.jpg" },
-    { location: "Texas, USA", name: "Skyline Tower", image: "/projects/p4.jpg" },
-    { location: "Dallas, USA", name: "Downtown Business Center", image: "/projects/p5.jpg" },
-    { location: "Georgia, USA", name: "Riverside Villas", image: "/projects/p6.jpg" },
+    {
+      location: "Haryana",
+      name: "KGP Expressway",
+      image: "/projects/p1.jpg",
+      desc: "Ready mix concrete supply and batching support with consistent quality and timely dispatch.",
+    },
+    {
+      location: "Haryana",
+      name: "NH-152D Bharat Mala Project",
+      image: "/projects/p2.jpg",
+      desc: "Concrete production + on-site coordination to meet tight timelines and compliance standards.",
+    },
+    {
+      location: "Jhajjar",
+      name: "Industrial Warehouse Platform",
+      image: "/projects/p3.jpg",
+      desc: "Platform construction support including earthwork preparation, leveling, and RCC works.",
+    },
+    {
+      location: "Rohtak",
+      name: "Commercial Complex Foundation",
+      image: "/projects/p4.jpg",
+      desc: "Foundation and base works with quality testing, cube trials, and site supervision.",
+    },
+    {
+      location: "Bahadurgarh",
+      name: "Industrial Road Development",
+      image: "/projects/p5.jpg",
+      desc: "Subgrade prep, compaction, and concrete supply for durable industrial road development.",
+    },
+    {
+      location: "NCR Region",
+      name: "Warehouse Civil Support",
+      image: "/projects/p6.jpg",
+      desc: "Civil + RCC support for warehouse development with planning, execution, and QC checks.",
+    },
   ],
   buttonText = "Next",
   onNext, // optional callback
@@ -88,13 +118,30 @@ function FloatingProjectCard({ project, index }) {
               sizes="(max-width: 1024px) 50vw, 33vw"
             />
 
+            {/* ✅ Hover overlay (description) */}
+            <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              {/* dark fade */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+
+              {/* text */}
+              <div className="absolute inset-x-0 bottom-0 p-4">
+                <div className="translate-y-2 transition-transform duration-300 group-hover:translate-y-0">
+                  <p className="text-[11px] tracking-wide text-white/70">{project.location}</p>
+                  <p className="mt-1 text-sm font-semibold text-white">{project.name}</p>
+                  {project.desc ? (
+                    <p className="mt-2 text-xs leading-5 text-white/85">{project.desc}</p>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+
             {/* subtle shine */}
             <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <div className="absolute -top-24 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-white/35 blur-2xl" />
             </div>
           </div>
 
-          {/* Text block like screenshot */}
+          {/* Text block (default visible) */}
           <div className="bg-gray-50 px-5 py-4">
             <p className="text-[11px] tracking-wide text-black/55">{project.location}</p>
             <p className="mt-1 text-sm font-semibold text-black/85">{project.name}</p>
@@ -141,10 +188,7 @@ function TiltCard({ children }) {
         onMouseMove={onMove}
         onMouseLeave={onLeave}
         style={style}
-        className={[
-          "transition-transform duration-200",
-          "hover:-translate-y-1", // extra lift on hover
-        ].join(" ")}
+        className={["transition-transform duration-200", "hover:-translate-y-1"].join(" ")}
       >
         {children}
       </div>

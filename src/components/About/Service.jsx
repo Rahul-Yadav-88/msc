@@ -26,8 +26,7 @@ function useTilt(max = 8) {
 
   const onLeave = () => {
     setStyle({
-      transform:
-        "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px)",
+      transform: "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px)",
     })
   }
 
@@ -96,7 +95,6 @@ function ServiceCard({ item, index, inView }) {
         "hover:bg-white",
         inView ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
       ].join(" ")}
-      // stagger reveal
       aria-label={item.title}
     >
       <div
@@ -113,13 +111,34 @@ function ServiceCard({ item, index, inView }) {
           </div>
         </div>
 
-        {/* image */}
-        <div className="mt-6 overflow-hidden rounded-lg border border-zinc-200 bg-white">
+        {/* image (with hover description overlay) */}
+        <div className="mt-6 overflow-hidden rounded-lg border border-zinc-200 bg-white relative">
           <img
             src={item.image}
             alt={item.title}
             className="h-[200px] w-full object-cover transition duration-700 group-hover:scale-[1.05]"
           />
+
+          {/* ✅ Overlay (only when hovering IMAGE area) */}
+          <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {/* gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+
+            {/* text */}
+            <div className="absolute inset-x-0 bottom-0 p-4">
+              <div className="translate-y-3 transition-transform duration-300 group-hover:translate-y-0">
+                <p className="text-[11px] tracking-[0.18em] text-white/70 uppercase">
+                  Service
+                </p>
+                <p className="mt-1 text-sm font-semibold text-white">{item.title}</p>
+                {item.desc ? (
+                  <p className="mt-2 text-xs leading-5 text-white/85 line-clamp-3">
+                    {item.desc}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* subtle 3D shine */}
@@ -137,19 +156,22 @@ export default function OurServices() {
   const services = useMemo(
     () => [
       {
-        title: "Structural Engineering",
+        title: "Structural & Concrete Engineering",
         icon: "grid",
-        image: "/services/1.jpg", // put in /public/services/1.jpg
+        image: "/h7.png",
+        desc: "Concrete planning, structural execution, and site-ready engineering support for strong, durable builds.",
       },
       {
-        title: "General Contracting",
+        title: "General Contracting & Earthwork",
         icon: "layers",
-        image: "/services/2.jpg",
+        image: "/h9.png",
+        desc: "Earthwork, excavation, leveling, and contractor coordination to ensure smooth and timely construction progress.",
       },
       {
-        title: "Commercial Construction",
+        title: "Commercial & Industrial Construction Support",
         icon: "building",
-        image: "/services/3.jpg",
+        image: "/h5.png",
+        desc: "Civil and RCC support for warehouses and industrial sites with quality control and milestone-based execution.",
       },
     ],
     []
@@ -171,7 +193,7 @@ export default function OurServices() {
           </h2>
         </div>
 
-        {/* Grid wrapper (single bordered container like screenshot) */}
+        {/* Grid wrapper */}
         <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
           <div className="grid grid-cols-1 md:grid-cols-3">
             {services.map((item, idx) => (
@@ -190,7 +212,7 @@ export default function OurServices() {
           </div>
         </div>
 
-        {/* Button bottom-right */}
+        {/* Button */}
         <div
           className={[
             "mt-10 flex justify-end transition-all duration-700",
@@ -199,7 +221,7 @@ export default function OurServices() {
           style={{ transitionDelay: inView ? "520ms" : "0ms" }}
         >
           <Link
-            href="/services"
+            href="/Services"
             className="group inline-flex items-center gap-3 rounded-md border border-zinc-400 bg-transparent px-5 py-3 text-sm font-medium text-zinc-900 transition
                        hover:-translate-y-1 hover:bg-white hover:shadow-md active:translate-y-0"
           >

@@ -2,36 +2,6 @@
 
 import React, { useEffect, useMemo, useState } from "react"
 
-// ✅ React 19 safe tilt: uses event.currentTarget (no refs)
-function useTilt(max = 10) {
-  const [style, setStyle] = useState({
-    transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)",
-  })
-
-  const onMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const midX = rect.width / 2
-    const midY = rect.height / 2
-    const rY = ((x - midX) / midX) * max
-    const rX = -((y - midY) / midY) * max
-
-    setStyle({
-      transform: `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateZ(6px)`,
-    })
-  }
-
-  const onLeave = () => {
-    setStyle({
-      transform:
-        "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)",
-    })
-  }
-
-  return { style, onMove, onLeave }
-}
-
 // ✅ simple intersection observer for reveal animation
 function useInView(options = { threshold: 0.2 }) {
   const [inView, setInView] = useState(false)
@@ -52,11 +22,16 @@ function useInView(options = { threshold: 0.2 }) {
 }
 
 const Icon = ({ name }) => {
-  // minimal inline icons (no extra lib)
   const common = "h-5 w-5 text-zinc-700"
   if (name === "globe") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <svg
+        className={common}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
         <circle cx="12" cy="12" r="9" />
         <path d="M3 12h18" />
         <path d="M12 3c3.2 3.4 3.2 14.6 0 18" />
@@ -66,7 +41,13 @@ const Icon = ({ name }) => {
   }
   if (name === "hand") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <svg
+        className={common}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
         <path d="M8 11V6a2 2 0 1 1 4 0v5" />
         <path d="M12 11V5a2 2 0 1 1 4 0v6" />
         <path d="M16 12V7a2 2 0 1 1 4 0v8a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6v-2a2 2 0 1 1 4 0v1" />
@@ -75,23 +56,32 @@ const Icon = ({ name }) => {
   }
   if (name === "chip") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <svg
+        className={common}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
         <rect x="7" y="7" width="10" height="10" rx="2" />
         <path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4" />
       </svg>
     )
   }
-  // default: badge
   return (
-    <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+    <svg
+      className={common}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
       <path d="M12 2l3 4 5 1-3 4 1 5-6-2-6 2 1-5-3-4 5-1 3-4z" />
     </svg>
   )
 }
 
 export default function BuildingVision() {
-  const wrapTilt = useTilt(6)
-  const imgTilt = useTilt(10)
   const inView = useInView()
 
   const items = useMemo(
@@ -106,37 +96,58 @@ export default function BuildingVision() {
 
   return (
     <section className="w-full bg-white py-16">
-      <div
-        id="building-vision-section"
-        className="mx-auto max-w-6xl px-4"
-      >
+      {/* Float animation (scoped) */}
+      <style jsx>{`
+        @keyframes floaty {
+          0% {
+            transform: translateY(0px) rotate(-0.2deg);
+          }
+          50% {
+            transform: translateY(-10px) rotate(0.2deg);
+          }
+          100% {
+            transform: translateY(0px) rotate(-0.2deg);
+          }
+        }
+        .floaty {
+          animation: floaty 4.5s ease-in-out infinite;
+          will-change: transform;
+        }
+      `}</style>
+
+      <div id="building-vision-section" className="mx-auto max-w-6xl px-4">
         <div
-          onMouseMove={wrapTilt.onMove}
-          onMouseLeave={wrapTilt.onLeave}
-          style={wrapTilt.style}
           className={[
             "grid overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 shadow-sm",
             "lg:grid-cols-2",
-            "transition-transform duration-200 will-change-transform",
           ].join(" ")}
         >
           {/* Left Image */}
-          <div className="relative min-h-[320px] lg:min-h-[520px]">
+          <div className="relative flex items-center justify-center p-6 sm:p-8 lg:p-10">
+            {/* smaller floating image card */}
             <div
-              onMouseMove={imgTilt.onMove}
-              onMouseLeave={imgTilt.onLeave}
-              style={imgTilt.style}
-              className="h-full w-full transition-transform duration-200 will-change-transform"
+              className={[
+                "floaty relative overflow-hidden rounded-2xl border border-zinc-200 bg-white",
+                "shadow-[0_18px_40px_rgba(0,0,0,0.12)]",
+                // ✅ controls image size
+                "w-full max-w-[420px] sm:max-w-[460px] lg:max-w-[520px]",
+              ].join(" ")}
             >
               <img
-                src="/vision.jpg" // ✅ put your image in /public/vision.jpg
+                src="/h2.png"
                 alt="Building vision"
-                className="h-full w-full object-cover"
+                className={[
+                  // ✅ controls image height so it’s not too big
+                  "h-[240px] w-full object-fill sm:h-[280px] lg:h-[450px]",
+                ].join(" ")}
               />
+
+              {/* subtle shine */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/15" />
             </div>
 
-            {/* subtle shine */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
+            {/* soft ground shadow so it feels “in air” */}
+            <div className="pointer-events-none absolute bottom-8 h-10 w-[70%] max-w-[420px] rounded-full bg-black/10 blur-2xl" />
           </div>
 
           {/* Right Content */}
@@ -153,9 +164,12 @@ export default function BuildingVision() {
                 </h3>
 
                 <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-600">
-                  At Drill, our team’s vast experience and technical mastery turn
-                  ambitious ideas into exceptional realities, delivering projects
-                  that last a lifetime.
+                  At M.S. Construction, our technical expertise and on-ground
+                  experience transform ambitious infrastructure ideas into
+                  reliable, long-lasting results. We combine modern equipment,
+                  structured planning, and disciplined site coordination to
+                  deliver projects that meet industry standards and client
+                  expectations.
                 </p>
               </div>
 
@@ -192,7 +206,9 @@ export default function BuildingVision() {
                 className={[
                   "mt-8",
                   "transition-all duration-700",
-                  inView ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
+                  inView
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-3 opacity-0",
                 ].join(" ")}
                 style={{ transitionDelay: inView ? "520ms" : "0ms" }}
               >
@@ -205,7 +221,7 @@ export default function BuildingVision() {
               </div>
             </div>
 
-            {/* animated ambient blob */}
+            {/* ambient blob */}
             <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/60 blur-2xl" />
           </div>
         </div>

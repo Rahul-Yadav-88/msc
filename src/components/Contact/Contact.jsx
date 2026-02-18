@@ -5,10 +5,10 @@ import { motion } from "framer-motion"
 
 export default function ContactPage({
   title = "Contact Us",
-  subtitle = "Tell us about your project. We’ll get back within 24 hours.",
-  email = "hello@example.com",
-  phone = "+91 00000 00000",
-  address = "Chandigarh, India",
+  subtitle = "Tell us about your infrastructure requirements. Our team will respond within 24 hours.",
+  email = "msconstruction495@gmail.com",
+  phone = "+91 98138 62442",
+  address = "Jhajjar-Rewari Road NH 71, VPO Dadanpur District Jhajjar, Haryana",
 }) {
   const [form, setForm] = useState({
     name: "",

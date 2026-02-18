@@ -32,7 +32,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <Image
-            src="/hero.webp"
+            src="/hero.png"
             alt="Modern construction"
             fill
             priority
@@ -60,10 +60,12 @@ export default function HeroSection() {
                 >
                   <span className="bg-gradient-to-r from-[#caa56a] via-[#d8b07a] to-[#b88b4f] bg-clip-text text-transparent">
                     MODERN
+
                   </span>
                   <br />
                   <span className="bg-gradient-to-r from-[#caa56a] via-[#d8b07a] to-[#b88b4f] bg-clip-text text-transparent">
-                    CONSTRUCTION
+                    INFRASTRUCTURE
+SOLUTIONS
                   </span>
                 </motion.h1>
 
@@ -82,14 +84,15 @@ export default function HeroSection() {
                     </p>
 
                     <p className="mt-2 max-w-2xl text-sm sm:text-base text-black/70 leading-relaxed">
-                      Delivering reliable Ready Mix Concrete and civil infrastructure solutions across
-                      Haryana and NCR with precision engineering and modern execution systems.
+                      Delivering high-quality Ready Mix Concrete and civil infrastructure solutions across
+Haryana and NCR with precision engineering, advanced batching systems, and
+disciplined project execution
                     </p>
 
                     <p className="mt-3 max-w-2xl text-sm sm:text-base text-black/60 leading-relaxed">
-                      From expressways and highways to industrial warehouses and commercial foundations,
-                      M.S. Construction ensures structured planning, controlled batching, and disciplined
-                      on-site coordination for every project
+                      From highways and expressways to industrial warehouses and large-scale commercial
+foundations, M.S. Construction ensures structured planning, controlled production, and
+reliable on-site coordination for every project.
                     </p>
 
                     <motion.div
@@ -111,20 +114,20 @@ export default function HeroSection() {
                     <ul className="space-y-6">
                       <Feature
                         icon={<IconDoc />}
-                        title="Delivering quality construction"
-                        desc="solutions since day one."
+                        title="Delivering consistent concrete quality"
+                        desc="with automated batching and lab-tested materials."
                         delay={0.08}
                       />
                       <Feature
                         icon={<IconHome />}
-                        title="Proven track record of excellence"
-                        desc="across diverse industries."
+                        title="Proven execution across infrastructure projects"
+                        desc="including highways, industrial platforms, and commercial developments."
                         delay={0.14}
                       />
                       <Feature
                         icon={<IconChart />}
-                        title="Innovating to push boundaries"
-                        desc="in modern construction."
+                        title="Driven by modern systems and disciplined teams"
+                        desc="ensuring durability, safety, and timely completion."
                         delay={0.2}
                       />
                     </ul>

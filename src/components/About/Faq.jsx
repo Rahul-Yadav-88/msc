@@ -10,24 +10,24 @@ export default function FAQSection({
   imageSrc = "/faq/faq.jpg",
   faqs = [
     {
-      q: "How does Drill ensure transparency throughout the project?",
-      a: "We provide regular updates, clear milestones, and shared documentation so you always know the status, timeline, and next steps.",
+      q: "How does M.S. Construction ensure concrete quality?",
+      a: "We use automated batching systems with moisture control and conduct regular laboratory testing to ensure strength and compliance with Indian Standards.",
     },
     {
-      q: "What types of construction projects does Drill specialize in?",
-      a: "We specialize in residential, commercial, and infrastructure projects—covering design-to-delivery with quality and safety standards.",
+      q: "What types of projects do you specialize in?",
+      a: "We specialize in highways, expressways, industrial warehouse platforms, commercial foundations, and large-scale infrastructure developments.",
     },
     {
-      q: "How does Drill address noise and disruption during construction?",
-      a: "We plan work schedules, use controlled methods, and maintain on-site coordination to minimize disruption for occupants and neighbors.",
+      q: "How do you manage timely delivery?",
+      a: "Our structured dispatch system and modern transit mixer fleet ensure timely delivery aligned with project schedules.",
     },
     {
-      q: "What technology does Drill use for project management?",
-      a: "We use modern project management tools for scheduling, task tracking, and reporting—ensuring clarity and timely delivery.",
+      q: "Do you provide on-site supervision?",
+      a: "Yes. Our experienced supervisors monitor execution, coordinate machinery, and ensure quality compliance at every stage.",
     },
     {
-      q: "How does Drill handle unexpected changes during a project?",
-      a: "We evaluate impact, propose options, confirm approvals, and adjust schedules/budgets transparently—keeping work moving smoothly.",
+      q: "Can you handle large-scale infrastructure projects?",
+      a: "With our advanced machinery fleet and batching capacity, we are fully equipped to manage high-volume infrastructure demands.",
     },
   ],
 }) {

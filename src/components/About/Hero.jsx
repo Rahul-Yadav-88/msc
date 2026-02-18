@@ -7,18 +7,17 @@ import { motion } from "framer-motion"
 
 export default function OurStory({
   title = "Our Story",
-  heading = "We believe in transforming visions into reality through innovative construction solutions.",
-  description = "Drill is a trusted name in the construction industry, specializing in residential, commercial, & infrastructure projects. From concept to completion, we focus on delivering quality craftsmanship, sustainable practices, and seamless project execution.",
+  heading = "Building Infrastructure with Precision, Discipline, and Integrity.",
+  description = "M.S. Construction is a trusted infrastructure and Ready Mix Concrete partner operating across Haryana and NCR. Established with a commitment to quality and structured execution, we specialize in batching plant operations, earthwork development, and civil infrastructure support.",
   buttonText = "Explore Projects",
-  buttonHref = "/projects",
-  mainImage = "/story/main.jpg",
-  smallImage = "/story/small.jpg",
+  buttonHref = "/Projects",
+  mainImage = "/a1.png",
+  smallImage = "/a2.png",
   points = [
-    "Delivering high-quality outcomes while optimizing costs",
-    "Quick resolution of unexpected challenges during projects",
-    "Blending creativity and functionality in every project",
-    "Meticulous attention to detail for superior results every time",
-    "Trusted by clients with numerous successful projects.",
+    " Consistent concrete quality with automated batching systems",
+    "Timely dispatch supported by modern transit mixer fleet",
+    "Strong site supervision and structured execution",
+    "Commitment to safety and industry compliance",
   ],
 }) {
   return (
@@ -45,7 +44,7 @@ export default function OurStory({
                   src={mainImage}
                   alt="Our story main"
                   fill
-                  className="object-cover"
+                  className="object-cover rounded-lg"
                   priority
                 />
               </TiltBox>
@@ -89,7 +88,7 @@ export default function OurStory({
                       src={smallImage}
                       alt="Our story small"
                       fill
-                      className="object-cover"
+                      className="object-fill rounded-lg"
                     />
                   </TiltBox>
                 </Reveal>

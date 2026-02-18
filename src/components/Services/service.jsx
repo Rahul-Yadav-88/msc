@@ -1,13 +1,14 @@
-"use client";
+"use client"
 
-import { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { useRef, useState } from "react"
+import { motion } from "framer-motion"
+import Image from "next/image"
 
 const SERVICES = [
   {
-    title: "Structural Engineering",
+    title: "Ready Mix Concrete Production",
     image: "/services/structural.jpg",
+    desc: "High-quality ready mix concrete with consistent batching, timely dispatch, and site-ready delivery for all project scales.",
     Icon: (props) => (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
         <path
@@ -20,8 +21,9 @@ const SERVICES = [
     ),
   },
   {
-    title: "General Contracting",
+    title: "Earthwork & Subgrade Preparation",
     image: "/services/contracting.jpg",
+    desc: "Excavation, leveling, compaction, and subgrade preparation to ensure strong foundations and long-term stability.",
     Icon: (props) => (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
         <path
@@ -34,8 +36,9 @@ const SERVICES = [
     ),
   },
   {
-    title: "Commercial Construction",
+    title: "Infrastructure Development Support",
     image: "/services/commercial.jpg",
+    desc: "End-to-end civil support for roads, drainage, and utilities with skilled manpower, equipment, and on-site coordination.",
     Icon: (props) => (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
         <path
@@ -48,8 +51,9 @@ const SERVICES = [
     ),
   },
   {
-    title: "Project Management",
+    title: "Industrial Civil Construction",
     image: "/services/management.jpg",
+    desc: "Civil works for warehouses, factories, and platforms with precise execution, safety focus, and schedule adherence.",
     Icon: (props) => (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
         <path
@@ -62,8 +66,9 @@ const SERVICES = [
     ),
   },
   {
-    title: "Residential Construction",
+    title: "Project Coordination & Execution",
     image: "/services/residential.jpg",
+    desc: "On-site supervision, resource planning, and milestone tracking to keep work smooth, aligned, and on time.",
     Icon: (props) => (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
         <path
@@ -76,8 +81,9 @@ const SERVICES = [
     ),
   },
   {
-    title: "Architectural Design",
+    title: "Quality Testing & Compliance",
     image: "/services/design.jpg",
+    desc: "Slump checks, cube testing, and quality documentation to ensure standards, approvals, and reliable performance.",
     Icon: (props) => (
       <svg viewBox="0 0 24 24" fill="none" {...props}>
         <path
@@ -89,31 +95,31 @@ const SERVICES = [
       </svg>
     ),
   },
-];
+]
 
 function clamp(n, min, max) {
-  return Math.max(min, Math.min(max, n));
+  return Math.max(min, Math.min(max, n))
 }
 
 function ServiceCard({ item, index }) {
-  const ref = useRef(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
+  const ref = useRef(null)
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
 
   const onMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
+    const el = ref.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
 
-    const px = (e.clientX - r.left) / r.width; // 0..1
-    const py = (e.clientY - r.top) / r.height; // 0..1
+    const px = (e.clientX - r.left) / r.width // 0..1
+    const py = (e.clientY - r.top) / r.height // 0..1
 
-    const ry = clamp((px - 0.5) * 14, -10, 10); // left/right
-    const rx = clamp((0.5 - py) * 14, -10, 10); // up/down
+    const ry = clamp((px - 0.5) * 14, -10, 10)
+    const rx = clamp((0.5 - py) * 14, -10, 10)
 
-    setTilt({ rx, ry });
-  };
+    setTilt({ rx, ry })
+  }
 
-  const onLeave = () => setTilt({ rx: 0, ry: 0 });
+  const onLeave = () => setTilt({ rx: 0, ry: 0 })
 
   return (
     <motion.div
@@ -145,17 +151,28 @@ function ServiceCard({ item, index }) {
             </span>
           </div>
 
-          {/* Image */}
-          <div className="relative overflow-hidden">
+          {/* Image + hover description overlay */}
+          <div className="relative overflow-hidden rounded-xl">
             <div className="relative h-[170px] w-full md:h-[185px]">
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 priority={index < 3}
               />
+            </div>
+
+            {/* dark fade */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            {/* description */}
+            <div className="pointer-events-none absolute inset-0 flex items-end p-4 opacity-0 transition-all duration-300 group-hover:opacity-100">
+              <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <p className="text-sm font-semibold text-white">{item.title}</p>
+                <p className="mt-1 text-xs leading-5 text-white/85">{item.desc}</p>
+              </div>
             </div>
 
             {/* subtle shine */}
@@ -171,7 +188,7 @@ function ServiceCard({ item, index }) {
         </div>
       </div>
     </motion.div>
-  );
+  )
 }
 
 export default function ServicesSection() {
@@ -195,7 +212,7 @@ export default function ServicesSection() {
         </div>
       </div>
 
-      {/* ✅ Global helpers: works in Next.js app router */}
+      {/* ✅ Global helpers */}
       <style jsx global>{`
         .perspective-1000 {
           perspective: 1000px;
@@ -238,5 +255,5 @@ export default function ServicesSection() {
         }
       `}</style>
     </section>
-  );
+  )
 }

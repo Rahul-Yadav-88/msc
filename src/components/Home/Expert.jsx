@@ -9,14 +9,14 @@ export default function ExpertSection(props) {
     leftImage = "/why-left.jpg",
     smallImage = "/why-small.jpg",
     eyebrow = "WHY CHOOSE US",
-    title = "Expert Craftsmanship for Unmatched Construction Projects",
+    title = "Precision Execution for Reliable Infrastructure Projects",
     description =
-      "Choosing Drill means working with a team that values quality, efficiency, & client satisfaction. From residential to commercial projects, we deliver results that last, on time & within budget.",
-    bullets = ["Comprehensive Services", "Transparent Processes", "Innovative Techniques"],
+      "Choosing M.S. Construction means working with a team that prioritizes quality, efficiency, and structured project coordination. From material sourcing to final delivery, we ensure every stage meets technical standards and timeline commitments.",
+    bullets = ["Advanced batching technology", "Transparent project coordination", "Modern fleet & machinery strength"],
     note =
-      "Your vision is our priority. At Drill, we deliver tailored solutions that align with your unique goals & exceed expectations.",
+      "Your project goals are our responsibility. We deliver tailored infrastructure solutions designed for durability, compliance, and long-term structural performance.",
     buttonText = "Contact us",
-    buttonHref = "/contact",
+    buttonHref = "/Contact",
 
     // Layout controls (optional)
     maxWidthClass = "max-w-6xl",
@@ -58,11 +58,11 @@ export default function ExpertSection(props) {
           }`}
         >
           {/* LEFT BIG IMAGE */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 ">
             <TiltImage
               src={leftImage}
               alt="Construction image"
-              className="relative w-full h-[36vw] overflow-hidden bg-black/5"
+              className="relative w-full h-[36vw] rounded-lg overflow-hidden bg-black/5"
               strength={tiltStrength}
               lift={lift}
             />
@@ -170,7 +170,7 @@ function TiltImage({ src, alt, className = "", strength = 14, lift = 6 }) {
         className={`${className} will-change-transform`}
         style={{ ...base, ...style }}
       >
-        <Image src={src} alt={alt} fill className="object-cover" />
+        <Image src={src} alt={alt} fill className="object-cover rounded-lg" />
 
         {/* Shine */}
         <div className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition duration-500">

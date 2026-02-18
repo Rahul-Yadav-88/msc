@@ -2,35 +2,24 @@
 
 import Image from "next/image"
 import { useMemo, useRef, useState } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
 
 export default function TestimonialsSection() {
   const testimonials = useMemo(
     () => [
       {
-        name: "Darlene Robertson",
-        location: "New York, US",
-        text: "Drill’s innovative approach and commitment to quality have made them our go-to partner for all construction needs",
+        name: "Rajesh Verma",
+        location: "Haryana",
+        text: "M.S. Construction maintained consistent concrete quality and ensured timely dispatch throughout our highway development project.",
         avatar: "/avatars/avatar1.jpg",
       },
       {
-        name: "Savannah Nguyen",
-        location: "Toronto, US",
-        text: "Working with Drill has been a delight. Their team’s collaboration and expertise brought our designs to life flawlessly.",
+        name: "Industrial Project Manager",
+        location: "Jhajjar",
+        text: "Their structured batching system and experienced site supervision helped us complete our warehouse platform efficiently and within timeline.",
         avatar: "/avatars/avatar2.jpg",
       },
-      {
-        name: "Kathryn Murphy",
-        location: "Dallas, US",
-        text: "Drill collaborative approach ensured designs were implemented with impeccable attention to detail. A pleasure to work with!",
-        avatar: "/avatars/avatar3.jpg",
-      },
-      {
-        name: "Brooklyn Simmons",
-        location: "Georgia, US",
-        text: "The team at Drill handled our complex requirements with precision and professionalism. Results speak for themselves.",
-        avatar: "/avatars/avatar4.jpg",
-      },
+      // Add more if needed
     ],
     []
   )
@@ -38,7 +27,7 @@ export default function TestimonialsSection() {
   // mobile carousel
   const trackRef = useRef(null)
   const [index, setIndex] = useState(0)
-  const maxIndex = testimonials.length - 1
+  const maxIndex = Math.max(0, testimonials.length - 1)
 
   const scrollToIndex = (i) => {
     const track = trackRef.current
@@ -81,19 +70,38 @@ export default function TestimonialsSection() {
           </h2>
         </motion.div>
 
-        {/* Desktop: 4 columns */}
+        {/* Desktop: dynamic layout (centers when 1/2) */}
         <div className="hidden lg:block">
-          <div className="grid grid-cols-4">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
-                <div className={`px-6 py-2 ${i !== 0 ? "border-l border-white/10" : ""}`}>
-                  <TiltCard t={t} />
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          {testimonials.length <= 2 ? (
+            <div className="flex justify-center">
+              <div className="flex flex-wrap justify-center gap-6">
+                {testimonials.map((t, i) => (
+                  <Reveal key={t.name} delay={i * 0.08}>
+                    <div className="w-full max-w-sm">
+                      <TiltCard t={t} />
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div
+              className={[
+                "grid",
+                testimonials.length === 3 ? "grid-cols-3" : "grid-cols-4",
+              ].join(" ")}
+            >
+              {testimonials.map((t, i) => (
+                <Reveal key={t.name} delay={i * 0.08}>
+                  <div className={`px-6 py-2 ${i !== 0 ? "border-l border-white/10" : ""}`}>
+                    <TiltCard t={t} />
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          )}
 
-          {/* Arrows (animated, decorative like screenshot) */}
+          {/* Arrows (decorative like screenshot) */}
           <div className="mt-10 flex justify-center gap-3">
             <ArrowButton disabled>
               <motion.svg
@@ -157,7 +165,7 @@ export default function TestimonialsSection() {
           </div>
 
           <div className="mt-8 flex justify-center gap-3">
-            <ArrowButton onClick={prev} disabled={index === 0}>
+            <ArrowButton onClick={prev} disabled={index === 0 || testimonials.length <= 1}>
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
                 <path
                   d="M14.5 5.5L8 12l6.5 6.5"
@@ -169,7 +177,7 @@ export default function TestimonialsSection() {
               </svg>
             </ArrowButton>
 
-            <ArrowButton onClick={next} disabled={index === maxIndex}>
+            <ArrowButton onClick={next} disabled={index === maxIndex || testimonials.length <= 1}>
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
                 <path
                   d="M9.5 5.5L16 12l-6.5 6.5"
@@ -230,7 +238,6 @@ function TiltCard({ t, compact = false }) {
       transform: "perspective(900px) rotateX(0deg) rotateY(0deg)",
       transition: "transform 250ms ease",
     })
-    // remove transition after it settles (so next hover feels snappy)
     setTimeout(() => setStyle({}), 260)
   }
 
@@ -256,7 +263,13 @@ function TiltCard({ t, compact = false }) {
         <div className="relative">
           <div className="flex items-center gap-3">
             <div className="relative h-12 w-12 overflow-hidden rounded-full ring-1 ring-white/15">
-              <Image src={t.avatar} alt={t.name} fill className="object-cover" />
+              <Image
+                src={t.avatar}
+                alt={t.name}
+                fill
+                className="object-cover"
+                sizes="48px"
+              />
             </div>
 
             <div>

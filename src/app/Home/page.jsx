@@ -14,11 +14,11 @@ export default function HomePage() {
        eyebrow="Explore"
       heading="OUR PROJECTS"
       buttonText="View All Projects"
-      buttonHref="/projects"
+      buttonHref="/Projects"
       projects={[
-        { location: "Chandigarh, India", title: "Tech Park", image: "/hero.webp" },
-        { location: "Delhi, India", title: "Commercial Tower", image: "/hero.webp" },
-        { location: "Mumbai, India", title: "Luxury Villa", image: "/hero.webp" },
+        { location: "Haryana, India", title: "KGP Expressway", image: "/h11.png" },
+        { location: "Haryana, India", title: "NH-152D Bharat Mala", image: "/h13.png" },
+        { location: "Jhajjar, India", title: "Industrial Warehouse Platform", image: "/h12.png" },
       ]}
       tiltIntensity={16}
       lift={8}
@@ -27,10 +27,10 @@ export default function HomePage() {
       
       <Service/>
        <Expert
-      leftImage="/hero.webp"
-      smallImage="/hero.webp"
-      title="Expert Craftsmanship for Unmatched Construction Projects"
-      buttonHref="/contact"
+      leftImage="/h11.png"
+      smallImage="/h4.png"
+      title="Precision Execution for Reliable Infrastructure Projects"
+      buttonHref="/Contact"
     />
     <Number />
 

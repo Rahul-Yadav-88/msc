@@ -68,9 +68,9 @@ export default function ContactSection() {
                 className="overflow-hidden rounded-lg border border-zinc-200 transition-transform duration-200"
               >
                 <img
-                  src="/contact.jpg"
+                  src="/h14.png"
                   alt="Contact"
-                  className="h-[180px] w-full object-cover transition duration-500 hover:scale-105"
+                  className="h-[220px] w-full object-fill transition duration-500 hover:scale-105"
                 />
               </div>
 
@@ -78,23 +78,26 @@ export default function ContactSection() {
                 <div>
                   <p className="text-xs text-zinc-500">Send us an email</p>
                   <p className="mt-1 text-base font-medium">
-                    info@example.com
+                    msconstruction495@gmail.com
                   </p>
                 </div>
 
                 <div>
                   <p className="text-xs text-zinc-500">Give us a call</p>
                   <p className="mt-1 text-base font-medium">
-                    +(406) 555-0120
+                    +91 98138 62442
                   </p>
                 </div>
 
                 <div>
                   <p className="text-xs text-zinc-500">Address</p>
                   <p className="mt-1 text-base font-medium">
-                    4517 Washington Ave. Manchester,
+                    Jhajjar-Rewari Road
+NH 71, VPO Dadanpur
+
                     <br />
-                    Kentucky 39495
+                    District Jhajjar, Haryana
+
                   </p>
                 </div>
               </div>

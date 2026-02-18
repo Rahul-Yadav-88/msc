@@ -7,11 +7,11 @@ import { motion } from "framer-motion"
 
 export default function AboutStrip({
   label = "Explore",
-  img1 = "/hero.webp",
-  img2 = "/hero.webp",
-  text = "Drill is not just a construction company we are builders of dreams. With over 25 years of expertise, we’ve become leaders in delivering high-quality, sustainable construction solutions that push the boundaries of modern architecture.",
+  img1 = "/h3.png",
+  img2 = "/h4.png",
+  text = "M.S. Construction is not just a concrete supplier. We are a structured infrastructure partner committed to delivering quality, durability, and efficiency across every project. With advanced machinery, experienced engineers, and disciplined site coordination, we provide dependable solutions that meet industry standards and exceed client expectations.",
   buttonText = "About us",
-  buttonHref = "/about",
+  buttonHref = "/About",
 }) {
   return (
     <section className="relative bg-black text-white overflow-hidden">
@@ -51,16 +51,16 @@ export default function AboutStrip({
           {/* Right content */}
           <div className="w-full">
             {/* images row */}
-            <div className="flex flex-col sm:flex-row items-start gap-5 sm:gap-6">
+            <div className="flex flex-col sm:flex-row items-start  gap-5 sm:gap-6">
               <Reveal delay={0.06}>
                 <FloatingCard floatDelay={0}>
-                  <TiltImage src={img1} alt="Team member" />
+                  <TiltImage src={img1} alt="Team member"  className="rounded-lg"/>
                 </FloatingCard>
               </Reveal>
 
               <Reveal delay={0.12}>
                 <FloatingCard floatDelay={0.18}>
-                  <TiltImage src={img2} alt="Architecture" />
+                  <TiltImage src={img2} alt="Architecture" className="rounded-lg" />
                 </FloatingCard>
               </Reveal>
             </div>

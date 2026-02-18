@@ -19,7 +19,7 @@ export default function Footer() {
     { name: "Instagram", href: "#" },
     { name: "Facebook", href: "#" },
     { name: "YouTube", href: "#" },
-    { name: "Twitter", href: "#" },
+    { name: "LinkedIn", href: "#" },
   ]
 
   const resources = [
@@ -148,7 +148,8 @@ export default function Footer() {
             <TiltCard>
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
                 <p className="text-sm text-white/70">
-                  Get updates about new projects, insights, and construction trends.
+                  Get updates about new infrastructure projects, company insights, and industry
+developments.
                 </p>
 
                 <div className="mt-4 flex gap-2">
@@ -183,7 +184,7 @@ export default function Footer() {
                   className="group inline-flex items-center gap-3 text-white font-semibold text-lg hover:text-red-400 transition"
                 >
                   <Mail className="h-5 w-5 text-white/65 group-hover:text-red-400 transition" />
-                  info@example.com
+                  msconstruction495@gmail.com
                 </a>
               </div>
 
@@ -194,7 +195,7 @@ export default function Footer() {
                   className="group inline-flex items-center gap-3 text-white font-semibold text-lg hover:text-red-400 transition"
                 >
                   <Phone className="h-5 w-5 text-white/65 group-hover:text-red-400 transition" />
-                  +(406) 555-0120
+                  +91 98138 62442
                 </a>
               </div>
             </div>

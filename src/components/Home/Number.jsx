@@ -55,7 +55,7 @@ export default function FactsFigures() {
                 boxShadow: "0 22px 45px -28px rgba(0,0,0,0.35)",
               }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-[#f3f4f6] p-10 sm:p-14 border-b border-black/10 lg:border-b-0 lg:border-r border-black/10"
+              className="bg-[#f3f4f6] p-10 sm:p-14 border-b lg:border-b-0 lg:border-r border-black/10"
               style={{ transformStyle: "preserve-3d" }}
             >
               <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
@@ -72,7 +72,9 @@ export default function FactsFigures() {
                 </h2>
 
                 <p className="mt-3 max-w-md text-sm text-black/55 leading-relaxed">
-                  Explore the figures that demonstrate our excellence in the construction industry.
+                  On-time project completion rate backed by disciplined execution systems.
+
+
                 </p>
               </motion.div>
 
@@ -104,10 +106,11 @@ export default function FactsFigures() {
 
               <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
                 <p className="text-5xl sm:text-6xl font-semibold tracking-tight text-black">
-                  95%
+                  100%
                 </p>
                 <p className="mt-4 max-w-md text-sm text-black/55 leading-relaxed">
-                  Proudly achieving 95% on-time project completion with excellent outcomes.
+Infrastructure and concrete projects delivered across Haryana & NCR.
+
                 </p>
               </motion.div>
             </motion.div>
@@ -127,10 +130,11 @@ export default function FactsFigures() {
             >
               <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
                 <p className="text-5xl sm:text-6xl font-semibold tracking-tight text-black">
-                  350+
+                  30+
                 </p>
                 <p className="mt-4 max-w-md text-sm text-black/55 leading-relaxed">
-                  Projects completed on time and within budget
+Advanced machinery units including batching plant, transit mixers, excavators, graders,
+and compactors.
                 </p>
               </motion.div>
             </motion.div>
@@ -153,11 +157,11 @@ export default function FactsFigures() {
 
               <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
                 <p className="text-5xl sm:text-6xl font-semibold tracking-tight text-white">
-                  $200M+
+                  5+ Years
                 </p>
                 <p className="mt-4 max-w-md text-sm text-white/60 leading-relaxed">
-                  Successfully completed projects worth over $200M, covering residential,
-                  commercial, and infrastructure developments with top-notch quality.
+                  Operational experience in infrastructure and civil development.
+
                 </p>
               </motion.div>
             </motion.div>
