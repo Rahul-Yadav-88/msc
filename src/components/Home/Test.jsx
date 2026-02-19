@@ -11,13 +11,13 @@ export default function TestimonialsSection() {
         name: "Rajesh Verma",
         location: "Haryana",
         text: "M.S. Construction maintained consistent concrete quality and ensured timely dispatch throughout our highway development project.",
-        avatar: "/avatars/avatar1.jpg",
+        avatar: "/h2.png",
       },
       {
         name: "Industrial Project Manager",
         location: "Jhajjar",
         text: "Their structured batching system and experienced site supervision helped us complete our warehouse platform efficiently and within timeline.",
-        avatar: "/avatars/avatar2.jpg",
+        avatar: "/h7.png",
       },
       // Add more if needed
     ],

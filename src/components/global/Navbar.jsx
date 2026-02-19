@@ -64,12 +64,12 @@ export default function Navbar() {
                 aria-label="MS Constructions"
               >
                 <Image
-                  src="/logo.jpeg" // ✅ put your file in /public/logo.jpeg
+                  src="/logo.png" // ✅ put your file in /public/logo.jpeg
                   alt="MS Constructions Logo"
                   width={290}
                   height={164}
                   priority
-                  className="h-20 w-auto object-contain"
+                  className="h-24 w-auto object-contain"
                 />
               </Link>
             </motion.div>
