@@ -2,89 +2,149 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { useState } from "react"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 
-export default function AboutStrip({
-  label = "Explore",
+export default function AboutStripModern({
+  label = "About",
+  kicker = "Built for heavy-duty delivery",
+  title = "Infrastructure-grade concrete, delivered with discipline.",
+  text = "M.S. Construction is not just a concrete supplier. We are a structured infrastructure partner committed to delivering quality, durability, and efficiency across every project. With advanced machinery, experienced engineers, and disciplined site coordination, we provide dependable solutions that meet industry standards and exceed client expectations.",
   img1 = "/h3.png",
   img2 = "/h4.png",
-  text = "M.S. Construction is not just a concrete supplier. We are a structured infrastructure partner committed to delivering quality, durability, and efficiency across every project. With advanced machinery, experienced engineers, and disciplined site coordination, we provide dependable solutions that meet industry standards and exceed client expectations.",
+  stats = [
+    { k: "On-time Dispatch", v: "98%" },
+    { k: "Quality Checks", v: "Batch-wise" },
+    { k: "Projects Served", v: "500+" },
+  ],
   buttonText = "About us",
   buttonHref = "/About",
 }) {
   return (
-    <section className="relative bg-black text-white overflow-hidden">
-      {/* subtle glow */}
+    <section className="relative overflow-hidden bg-[#070A0F] text-white">
+      {/* background: grid + glow */}
       <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(to_right,rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:48px_48px]" />
         <motion.div
-          className="absolute -top-32 left-1/2 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
-          animate={{ y: [0, 14, 0], opacity: [0.35, 0.6, 0.35] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-40 left-1/2 h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
+          animate={{ y: [0, 14, 0], opacity: [0.25, 0.5, 0.25] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute -bottom-40 right-[-120px] h-[360px] w-[360px] rounded-full bg-white/5 blur-3xl"
-          animate={{ y: [0, -12, 0], opacity: [0.25, 0.5, 0.25] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-44 right-[-160px] h-[420px] w-[420px] rounded-full bg-white/5 blur-3xl"
+          animate={{ y: [0, -12, 0], opacity: [0.2, 0.45, 0.2] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14">
-        {/* wrapper becomes column on mobile, row on desktop */}
-        <div className="mx-auto max-w-4xl flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
-          {/* Left label */}
+      <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* LEFT: copy */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.45 }}
-            className="flex items-center gap-2 text-xs tracking-widest text-white/55"
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="lg:col-span-6"
           >
-            <span className="inline-flex gap-1">
-              <span className="h-1 w-1 rounded-full bg-white/25" />
-              <span className="h-1 w-1 rounded-full bg-white/25" />
-              <span className="h-1 w-1 rounded-full bg-white/25" />
-            </span>
-            <span className="uppercase">{label}</span>
-          </motion.div>
-
-          {/* Right content */}
-          <div className="w-full">
-            {/* images row */}
-            <div className="flex flex-col sm:flex-row items-start  gap-5 sm:gap-6">
-              <Reveal delay={0.06}>
-                <FloatingCard floatDelay={0}>
-                  <TiltImage src={img1} alt="Team member"  className="rounded-lg"/>
-                </FloatingCard>
-              </Reveal>
-
-              <Reveal delay={0.12}>
-                <FloatingCard floatDelay={0.18}>
-                  <TiltImage src={img2} alt="Architecture" className="rounded-lg" />
-                </FloatingCard>
-              </Reveal>
+            {/* label row */}
+            <div className="flex items-center gap-3 text-xs tracking-[0.22em] text-white/60">
+              <span className="inline-flex items-center gap-1">
+                <span className="h-1 w-1 rounded-full bg-white/30" />
+                <span className="h-1 w-1 rounded-full bg-white/30" />
+                <span className="h-1 w-1 rounded-full bg-white/30" />
+              </span>
+              <span className="uppercase">{label}</span>
+              <span className="h-px flex-1 bg-white/10" />
             </div>
 
-            {/* text */}
-            <Reveal delay={0.16}>
-              <p className="mt-6 text-left text-base sm:text-lg md:text-xl leading-relaxed text-white/85 max-w-3xl">
-                {text}
-              </p>
-            </Reveal>
+            <p className="mt-5 text-sm text-white/70">{kicker}</p>
 
-            {/* button */}
-            <Reveal delay={0.22}>
-              <div className="mt-5">
-                <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-                  <Link
-                    href={buttonHref}
-                    className="inline-flex items-center gap-3 border border-white/35 px-6 py-3 text-sm text-white/85 hover:text-white hover:border-white/70 transition"
-                  >
-                    {buttonText} <span className="text-base">→</span>
-                  </Link>
+            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+              {title}
+            </h2>
+
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+              {text}
+            </p>
+
+            {/* stats */}
+            <div className="mt-7 grid max-w-xl grid-cols-3 gap-3">
+              {stats.map((s, i) => (
+                <motion.div
+                  key={s.k}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.45, delay: 0.05 * i }}
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur"
+                >
+                  <div className="text-lg font-semibold text-white">{s.v}</div>
+                  <div className="mt-1 text-xs tracking-wide text-white/60">{s.k}</div>
                 </motion.div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                <Link
+                  href={buttonHref}
+                  className="group inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-6 py-3 text-sm text-white/85 backdrop-blur transition hover:border-white/35 hover:bg-white/10"
+                >
+                  {buttonText}
+                  <span className="transition group-hover:translate-x-0.5">→</span>
+                </Link>
+              </motion.div>
+
+              <div className="text-xs text-white/55">
+                Response within <span className="text-white/80">24 hours</span>
               </div>
-            </Reveal>
+            </div>
+          </motion.div>
+
+          {/* RIGHT: visuals */}
+          <div className="lg:col-span-6">
+            <div className="relative rounded-[28px] border border-white/10 bg-white/[0.03] p-4 backdrop-blur">
+              {/* top chips */}
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                <Chip>Automated Batching</Chip>
+                <Chip>Moisture Control</Chip>
+                <Chip>Site Supervision</Chip>
+              </div>
+
+              {/* images */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <TiltMedia src={img1} alt="Concrete plant / team" />
+                <div className="grid gap-4">
+                  <TiltMedia src={img2} alt="Project / architecture" />
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.35 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-transparent p-4"
+                  >
+                    <div className="text-sm font-medium text-white/90">
+                      “Strength you can measure.”
+                    </div>
+                    <div className="mt-2 text-xs leading-relaxed text-white/60">
+                      Batch-wise testing + compliance-first execution across every delivery.
+                    </div>
+
+                    {/* tiny moving shimmer */}
+                    <motion.div
+                      className="pointer-events-none absolute -left-24 top-0 h-full w-40 bg-white/10 blur-2xl"
+                      animate={{ x: [0, 420, 0] }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* bottom accent */}
+              <div className="pointer-events-none absolute inset-x-10 -bottom-12 h-24 rounded-full bg-white/10 blur-3xl" />
+            </div>
           </div>
         </div>
       </div>
@@ -92,75 +152,68 @@ export default function AboutStrip({
   )
 }
 
-/* -------------------- helpers -------------------- */
+/* -------------------- small UI parts -------------------- */
 
-function Reveal({ children, delay = 0 }) {
+function Chip({ children }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.45 }}
-      transition={{ duration: 0.5, ease: "easeOut", delay }}
-    >
+    <div className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] tracking-wide text-white/70">
       {children}
-    </motion.div>
+    </div>
   )
 }
 
-function FloatingCard({ children, floatDelay = 0 }) {
-  return (
-    <motion.div
-      animate={{ y: [0, -10, 0] }}
-      transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: floatDelay }}
-      className="will-change-transform"
-    >
-      {children}
-    </motion.div>
-  )
-}
+/**
+ * Modern tilt without refs: uses event.currentTarget (React-safe)
+ * + subtle floating motion
+ */
+function TiltMedia({ src, alt }) {
+  const mx = useMotionValue(0)
+  const my = useMotionValue(0)
 
-function TiltImage({ src, alt }) {
-  const ref = useRef(null)
-  const [style, setStyle] = useState({})
+  const sx = useSpring(mx, { stiffness: 220, damping: 18 })
+  const sy = useSpring(my, { stiffness: 220, damping: 18 })
+
+  const rX = useTransform(sy, [-0.5, 0.5], [8, -8])
+  const rY = useTransform(sx, [-0.5, 0.5], [-10, 10])
 
   const onMove = (e) => {
-    const el = ref.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    const x = e.clientX - r.left
-    const y = e.clientY - r.top
-
-    const rx = -((y - r.height / 2) / (r.height / 2)) * 6
-    const ry = ((x - r.width / 2) / (r.width / 2)) * 6
-
-    setStyle({
-      transform: `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`,
-    })
+    const rect = e.currentTarget.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width - 0.5
+    const py = (e.clientY - rect.top) / rect.height - 0.5
+    mx.set(px)
+    my.set(py)
   }
 
   const onLeave = () => {
-    setStyle({
-      transform: "perspective(900px) rotateX(0deg) rotateY(0deg)",
-      transition: "transform 220ms ease",
-    })
-    setTimeout(() => setStyle({}), 230)
+    mx.set(0)
+    my.set(0)
   }
 
   return (
-    <div className="[perspective:900px]">
-      <div
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        style={style}
-        className="relative h-44 w-full sm:h-52 sm:w-52 overflow-hidden border border-white/10 bg-white/5 shadow-[0_25px_70px_-50px_rgba(255,255,255,0.35)] transition-transform duration-200"
-      >
+    <motion.div
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      animate={{ y: [0, -8, 0] }}
+      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      style={{ rotateX: rX, rotateY: rY, transformStyle: "preserve-3d" }}
+      className="relative h-56 w-full rounded-2xl border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-60px_rgba(255,255,255,0.35)]"
+    >
+      <div className="absolute inset-0 overflow-hidden rounded-2xl">
         <Image src={src} alt={alt} fill className="object-cover" priority />
-        {/* shine */}
-        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 hover:opacity-100">
-          <div className="absolute -top-20 left-1/2 h-44 w-44 -translate-x-1/2 rounded-full bg-white/25 blur-2xl" />
+        {/* gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+      </div>
+
+      {/* glass highlight */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl"
+        style={{ transform: "translateZ(24px)" }}
+      >
+        <div className="absolute -top-16 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-white/18 blur-2xl" />
+        <div className="absolute bottom-3 left-3 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] text-white/70 backdrop-blur">
+          Modern Execution
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

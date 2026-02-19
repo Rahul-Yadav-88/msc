@@ -3,171 +3,156 @@
 import React from "react"
 import { motion } from "framer-motion"
 
-export default function FactsFigures() {
-  const container = {
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.12, delayChildren: 0.05 },
+export default function FactsFigures({
+  eyebrow = "BY THE NUMBERS",
+  title = "FACTS & FIGURES",
+  subtitle =
+    "A quick snapshot of execution strength — capability, delivery discipline, and on-ground readiness.",
+
+  stats = [
+    {
+      value: "100%",
+      label: "Delivery Focus",
+      desc: "Infrastructure and concrete projects delivered across Haryana & NCR.",
     },
+    {
+      value: "30+",
+      label: "Machinery Units",
+      desc: "Batching plant, transit mixers, excavators, graders, compactors & more.",
+    },
+    {
+      value: "5+ Years",
+      label: "Experience",
+      desc: "Operational experience in infrastructure and civil development.",
+    },
+    {
+      value: "On-time",
+      label: "Execution Rate",
+      desc: "Milestone-driven planning and structured coordination for timelines.",
+    },
+  ],
+} = {}) {
+  const wrap = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.12, delayChildren: 0.08 } },
   }
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  }
-
-  const card = {
-    hidden: { opacity: 0, y: 18, rotateX: 6, scale: 0.98 },
+  const fade = {
+    hidden: { opacity: 0, y: 14, filter: "blur(6px)" },
     show: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
-      scale: 1,
-      transition: { duration: 0.65, ease: "easeOut" },
+      filter: "blur(0px)",
+      transition: { type: "spring", stiffness: 140, damping: 18 },
     },
   }
 
   return (
-    <section className="bg-[#f3f4f6] py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        {/* keep your layout; add subtle depth wrapper */}
+    <section className="relative overflow-hidden bg-white py-16 sm:py-20">
+      {/* light background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-44 left-1/2 h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-[#d8b07a]/10 blur-3xl" />
+        <div className="absolute -bottom-56 right-[-160px] h-[520px] w-[520px] rounded-full bg-red-500/6 blur-3xl" />
+        <div className="absolute inset-0 opacity-[0.10] [background-image:radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.09)_1px,transparent_1px)] [background-size:34px_34px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <motion.div
-          variants={container}
+          variants={wrap}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          className="relative"
+          className="grid gap-10 lg:grid-cols-12 lg:items-center"
         >
-          {/* soft glow / depth (subtle) */}
-          <div className="pointer-events-none absolute -inset-6 rounded-[28px] bg-gradient-to-br from-black/5 via-transparent to-black/10 blur-2xl" />
+          {/* Left editorial */}
+          <motion.div variants={fade} className="lg:col-span-5">
+            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs text-black/60 shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-red-600" />
+              <span className="tracking-[0.26em] uppercase">{eyebrow}</span>
+            </div>
 
-          <div
-            className="relative grid grid-cols-1 lg:grid-cols-2 border border-black/10 rounded-2xl overflow-hidden"
-            style={{ perspective: 1200 }}
-          >
-            {/* LEFT TOP */}
-            <motion.div
-              variants={card}
-              whileHover={{
-                y: -3,
-                rotateX: 4,
-                rotateY: -4,
-                boxShadow: "0 22px 45px -28px rgba(0,0,0,0.35)",
-              }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-[#f3f4f6] p-10 sm:p-14 border-b lg:border-b-0 lg:border-r border-black/10"
-              style={{ transformStyle: "preserve-3d" }}
+            <h2 className="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-black">
+              {title}
+            </h2>
+
+            <p className="mt-3 text-sm sm:text-base text-black/60 leading-relaxed max-w-md">
+              {subtitle}
+            </p>
+
+            {/* modern mini callouts */}
+            <div className="mt-7 grid gap-3">
+              <MiniPill text="Controlled production" />
+              <MiniPill text="Disciplined dispatch system" />
+              <MiniPill text="Site-ready execution teams" />
+            </div>
+          </motion.div>
+
+          {/* Right floating tiles */}
+          <div className="lg:col-span-7">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {stats.map((s, i) => (
+                <StatTile key={`${s.value}-${i}`} s={s} i={i} />
+              ))}
+            </div>
+
+            {/* subtle bottom note */}
+            <motion.p
+              variants={fade}
+              className="mt-5 text-xs text-black/45"
             >
-              <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
-                <div className="flex items-center gap-2 text-xs tracking-widest text-black/40">
-                  <span className="inline-flex gap-1">
-                    <span className="h-1 w-1 rounded-full bg-black/25" />
-                    <span className="h-1 w-1 rounded-full bg-black/25" />
-                  </span>
-                  <span className="uppercase">BY THE NUMBERS</span>
-                </div>
-
-                <h2 className="mt-10 text-xl sm:text-2xl font-medium tracking-tight text-black">
-                  FACTS &amp; FIGURES
-                </h2>
-
-                <p className="mt-3 max-w-md text-sm text-black/55 leading-relaxed">
-                  On-time project completion rate backed by disciplined execution systems.
-
-
-                </p>
-              </motion.div>
-
-              {/* subtle floating accent */}
-              <motion.div
-                aria-hidden="true"
-                className="pointer-events-none absolute right-8 top-8 h-14 w-14 rounded-2xl border border-black/10 bg-white/60 backdrop-blur"
-                animate={{ y: [0, -6, 0], rotate: [0, 2, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                style={{ transform: "translateZ(18px)" }}
-              />
-            </motion.div>
-
-            {/* RIGHT TOP */}
-            <motion.div
-              variants={card}
-              whileHover={{
-                y: -3,
-                rotateX: 4,
-                rotateY: 4,
-                boxShadow: "0 22px 45px -28px rgba(0,0,0,0.35)",
-              }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-white p-10 sm:p-14 border-b border-black/10 relative"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              {/* shimmer line */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-black/15 to-transparent" />
-
-              <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
-                <p className="text-5xl sm:text-6xl font-semibold tracking-tight text-black">
-                  100%
-                </p>
-                <p className="mt-4 max-w-md text-sm text-black/55 leading-relaxed">
-Infrastructure and concrete projects delivered across Haryana & NCR.
-
-                </p>
-              </motion.div>
-            </motion.div>
-
-            {/* LEFT BOTTOM */}
-            <motion.div
-              variants={card}
-              whileHover={{
-                y: -3,
-                rotateX: -4,
-                rotateY: -4,
-                boxShadow: "0 22px 45px -28px rgba(0,0,0,0.35)",
-              }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-white p-10 sm:p-14 lg:border-r border-black/10 relative"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
-                <p className="text-5xl sm:text-6xl font-semibold tracking-tight text-black">
-                  30+
-                </p>
-                <p className="mt-4 max-w-md text-sm text-black/55 leading-relaxed">
-Advanced machinery units including batching plant, transit mixers, excavators, graders,
-and compactors.
-                </p>
-              </motion.div>
-            </motion.div>
-
-            {/* RIGHT BOTTOM */}
-            <motion.div
-              variants={card}
-              whileHover={{
-                y: -3,
-                rotateX: -4,
-                rotateY: 4,
-                boxShadow: "0 26px 55px -34px rgba(0,0,0,0.65)",
-              }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-black p-10 sm:p-14 relative"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              {/* subtle glow */}
-              <div className="pointer-events-none absolute -inset-10 bg-gradient-to-br from-white/10 via-transparent to-transparent blur-2xl" />
-
-              <motion.div variants={fadeUp} style={{ transform: "translateZ(12px)" }}>
-                <p className="text-5xl sm:text-6xl font-semibold tracking-tight text-white">
-                  5+ Years
-                </p>
-                <p className="mt-4 max-w-md text-sm text-white/60 leading-relaxed">
-                  Operational experience in infrastructure and civil development.
-
-                </p>
-              </motion.div>
-            </motion.div>
+              Figures represent operational capability and execution approach across projects.
+            </motion.p>
           </div>
         </motion.div>
       </div>
     </section>
+  )
+}
+
+function StatTile({ s, i }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ type: "spring", stiffness: 150, damping: 18, delay: i * 0.06 }}
+      whileHover={{ y: -6 }}
+      className={[
+        "group relative overflow-hidden rounded-[26px]",
+        "border border-black/10 bg-white",
+        "shadow-[0_24px_70px_-55px_rgba(0,0,0,0.45)]",
+        "p-6",
+      ].join(" ")}
+    >
+      {/* corner accent */}
+      <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 -translate-y-8 translate-x-8 rounded-full bg-red-500/10 blur-2xl" />
+
+      <p className="text-xs tracking-[0.24em] text-black/45 uppercase">{s.label}</p>
+
+      <div className="mt-3 flex items-end justify-between gap-4">
+        <p className="text-4xl sm:text-5xl font-extrabold tracking-tight text-black">
+          {s.value}
+        </p>
+        <span className="text-sm font-semibold text-red-600 opacity-0 transition group-hover:opacity-100">
+          →
+        </span>
+      </div>
+
+      <p className="mt-3 text-sm text-black/60 leading-relaxed">{s.desc}</p>
+
+      {/* hover ring */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
+        <div className="absolute inset-0 ring-1 ring-black/10" />
+      </div>
+    </motion.div>
+  )
+}
+
+function MiniPill({ text }) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+      <span className="h-2 w-2 rounded-full bg-[#d8b07a]" />
+      <p className="text-sm text-black/65">{text}</p>
+    </div>
   )
 }

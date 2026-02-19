@@ -1,7 +1,7 @@
 import OurStorySection from "../../components/About/Hero"
 import BuildingVision from "../../components/About/Vision"
 import Number from "../../components/Home/Number"
-import Team from "../../components/About/Team"
+// import Team from "../../components/About/Team"
 import Service from "../../components/About/Service"
 import Faq from "../../components/About/Faq"
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
           <Number />
 
             <BuildingVision />
-            <Team />
+            {/* <Team /> */}
             <Service />
             <Faq />
     </main>

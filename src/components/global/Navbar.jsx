@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
 import { Menu, X } from "lucide-react"
@@ -44,34 +45,37 @@ export default function Navbar() {
           scrolled ? "shadow-[0_10px_30px_-18px_rgba(0,0,0,0.35)]" : "",
         ].join(" ")}
         style={{
-          // subtle “tilt” depth using perspective
           transform: "perspective(1200px) translateZ(0px)",
         }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="h-16 flex items-center justify-between">
+          <div className="flex h-16 items-center justify-between">
             {/* Left: Logo */}
             <motion.div
-              className="flex items-center w-auto md:w-[220px]"
+              className="flex w-auto items-center md:w-[220px]"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
               <Link
                 href="/"
-                className="text-2xl font-semibold tracking-wide relative"
                 onClick={() => setOpen(false)}
+                className="flex items-center"
+                aria-label="MS Constructions"
               >
-                <span className="inline-block">
-                  DRILL
-                  {/* tiny underline hover */}
-                  <span className="block h-[2px] w-0 bg-black/80 transition-all duration-300 group-hover:w-full" />
-                </span>
+                <Image
+                  src="/logo.jpeg" // ✅ put your file in /public/logo.jpeg
+                  alt="MS Constructions Logo"
+                  width={290}
+                  height={164}
+                  priority
+                  className="h-20 w-auto object-contain"
+                />
               </Link>
             </motion.div>
 
             {/* Center: Menu (desktop) */}
-            <nav className="hidden md:flex flex-1 items-center justify-center gap-10">
+            <nav className="hidden flex-1 items-center justify-center gap-10 md:flex">
               {navLinks.map((item, i) => (
                 <motion.div
                   key={item.label}
@@ -81,20 +85,18 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className="relative text-xs font-medium tracking-widest text-black/80 hover:text-black transition duration-200"
+                    className="relative text-xs font-medium tracking-widest text-black/80 transition duration-200 hover:text-black"
                   >
-                    {/* 3D hover “lift” */}
                     <span className="inline-block transition-transform duration-200 hover:-translate-y-[2px] hover:translate-x-[1px]">
                       {item.label}
                     </span>
-                    <span className="pointer-events-none absolute -bottom-2 left-0 h-[2px] w-0 bg-black/80 transition-all duration-300 hover:w-full" />
                   </Link>
                 </motion.div>
               ))}
             </nav>
 
             {/* Right: Social Icons (desktop) */}
-            <div className="hidden md:flex items-center justify-end gap-5 w-[220px]">
+            <div className="hidden w-[220px] items-center justify-end gap-5 md:flex">
               <SocialIcon href="https://x.com/" label="X">
                 <FaXTwitter className="text-[16px]" />
               </SocialIcon>
@@ -107,7 +109,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile: Menu button */}
-            <div className="md:hidden flex items-center gap-2">
+            <div className="flex items-center gap-2 md:hidden">
               <motion.button
                 onClick={() => setOpen((v) => !v)}
                 className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-3 py-2 shadow-sm"
@@ -137,7 +139,7 @@ export default function Navbar() {
 
             {/* Drawer */}
             <motion.aside
-              className="fixed top-0 right-0 z-50 h-full w-[85%] max-w-sm bg-white shadow-2xl border-l border-black/10"
+              className="fixed right-0 top-0 z-50 h-full w-[85%] max-w-sm border-l border-black/10 bg-white shadow-2xl"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -146,14 +148,23 @@ export default function Navbar() {
                 transform: "perspective(1200px) translateZ(0px)",
               }}
             >
-              <div className="h-16 px-4 flex items-center justify-between border-b border-black/10">
+              <div className="flex h-16 items-center justify-between border-b border-black/10 px-4">
+                {/* Mobile Logo */}
                 <Link
                   href="/"
-                  className="text-xl font-semibold tracking-wide"
                   onClick={() => setOpen(false)}
+                  className="flex items-center"
+                  aria-label="MS Constructions"
                 >
-                  DRILL
+                  <Image
+                    src="/logo.jpeg"
+                    alt="MS Constructions Logo"
+                    width={160}
+                    height={60}
+                    className="h-9 w-auto object-contain"
+                  />
                 </Link>
+
                 <button
                   onClick={() => setOpen(false)}
                   className="rounded-xl border border-black/10 bg-white px-3 py-2"
@@ -176,9 +187,7 @@ export default function Navbar() {
                         href={item.href}
                         onClick={() => setOpen(false)}
                         className="group flex items-center justify-between rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-medium tracking-widest text-black/80 shadow-sm"
-                        style={{
-                          transformStyle: "preserve-3d",
-                        }}
+                        style={{ transformStyle: "preserve-3d" }}
                       >
                         <span className="transition-transform duration-200 group-hover:-translate-y-[2px]">
                           {item.label}
@@ -192,7 +201,7 @@ export default function Navbar() {
                 </nav>
 
                 <div className="mt-6">
-                  <p className="text-xs tracking-widest text-black/50 mb-3">
+                  <p className="mb-3 text-xs tracking-widest text-black/50">
                     FOLLOW
                   </p>
                   <div className="flex items-center gap-3">
@@ -226,11 +235,9 @@ function SocialIcon({ href, label, children, large = false }) {
       className={[
         "inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white shadow-sm",
         large ? "h-11 w-11" : "h-9 w-9",
-        "text-black/80 hover:text-black transition",
+        "text-black/80 transition hover:text-black",
       ].join(" ")}
-      style={{
-        transformStyle: "preserve-3d",
-      }}
+      style={{ transformStyle: "preserve-3d" }}
       whileHover={{
         y: -2,
         rotateX: 8,

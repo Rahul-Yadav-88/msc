@@ -1,24 +1,40 @@
 "use client"
 
-import React, { useMemo, useRef, useState } from "react"
+import React, { useMemo, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
-/**
- * NOTE about images:
- * You are using Unsplash URLs. If you want to use next/image for these remote images,
- * you must add "images.domains = ['images.unsplash.com']" in next.config.js.
- * To avoid config, this component uses <img> (works immediately).
- */
+/* ---------------- Animation Variants ---------------- */
+
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 120,
+      damping: 18,
+    },
+  },
+}
+
+/* ---------------- Main Section ---------------- */
 
 export default function ProjectsSection({
-  // Top small label
   eyebrow = "Explore",
-
-  // Main heading
   heading = "OUR PROJECTS",
 
-  // Cards data
   projects = [
     {
       location: "California, USA",
@@ -43,68 +59,58 @@ export default function ProjectsSection({
     },
   ],
 
-  // Button
   buttonText = "View All Projects",
   buttonHref = "/Projects",
   showButton = true,
 
-  // Layout
   maxWidthClass = "max-w-6xl",
   sectionClassName = "bg-white",
   paddingClassName = "py-16 sm:py-20",
-
-  // 3D/animation tuning
-  tiltIntensity = 14, // rotation amount
-  lift = 7, // translateY on hover
-  stagger = 120, // card reveal delay (ms)
-
-  // Premium motion tuning
-  floatAmount = 10, // px
-  floatBaseDuration = 4.6, // seconds
 } = {}) {
   const items = useMemo(() => projects, [projects])
 
   return (
-    <section className={sectionClassName}>
-      <div className={`mx-auto ${maxWidthClass} px-4 sm:px-6 ${paddingClassName}`}>
+    <section className={`${sectionClassName} relative overflow-hidden`}>
+      {/* Light background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-[#d8b07a]/10 blur-3xl" />
+      </div>
+
+      <div className={`relative mx-auto ${maxWidthClass} px-4 sm:px-6 ${paddingClassName}`}>
+
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="flex items-center gap-2 text-xs tracking-widest text-black/50">
-            <span className="inline-flex gap-1">
-              <span className="h-1 w-1 bg-black/30 rounded-full" />
-              <span className="h-1 w-1 bg-black/30 rounded-full" />
-              <span className="h-1 w-1 bg-black/30 rounded-full" />
-            </span>
+            <span className="h-1 w-1 rounded-full bg-black/30" />
             <span className="uppercase">{eyebrow}</span>
           </div>
 
-          <h2 className="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight text-black">
+          <h2 className="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-black">
             {heading}
           </h2>
         </div>
 
         {/* Cards */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {items.map((p, idx) => (
-            <FloatingTiltCard
-              key={`${p.title}-${idx}`}
-              project={p}
-              delayMs={idx * stagger}
-              tiltIntensity={tiltIntensity}
-              lift={lift}
-              floatAmount={floatAmount}
-              floatDuration={floatBaseDuration + (idx % 3) * 0.35}
-              floatDelay={(idx % 3) * 0.18}
-            />
+            <motion.div key={`${p.title}-${idx}`} variants={item}>
+              <ProjectCard project={p} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Button bottom right */}
+        {/* Button */}
         {showButton && (
-          <div className="mt-8 flex justify-end">
+          <div className="mt-10 flex justify-end">
             <Link
               href={buttonHref}
-              className="group inline-flex items-center gap-2 border border-black/20 px-6 py-3 text-sm text-black/70 hover:text-black hover:border-black/40 transition"
+              className="group inline-flex items-center gap-2 rounded-xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-black/80 shadow-sm hover:shadow-md hover:border-black/20 transition"
             >
               {buttonText}
               <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -112,163 +118,104 @@ export default function ProjectsSection({
           </div>
         )}
       </div>
-
-      {/* local keyframes for reveal */}
-      <style jsx>{`
-        @keyframes fadeUp {
-          from {
-            opacity: 0;
-            transform: translateY(14px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0px);
-          }
-        }
-      `}</style>
     </section>
   )
 }
 
-/* ================== FLOATING + 3D TILT CARD ================== */
-function FloatingTiltCard({
-  project,
-  delayMs = 0,
-  tiltIntensity = 14,
-  lift = 7,
-  floatAmount = 10,
-  floatDuration = 4.6,
-  floatDelay = 0,
-}) {
-  // float is outer motion, tilt is inner
+/* ---------------- Card ---------------- */
+
+function ProjectCard({ project }) {
+  const tilt = useTilt(6)
+
   return (
     <motion.div
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
       className="relative"
-      animate={{ y: [0, -floatAmount, 0] }}
-      transition={{
-        duration: floatDuration,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: floatDelay,
-      }}
-      style={{
-        animation: `fadeUp 720ms ease forwards`,
-        animationDelay: `${delayMs}ms`,
-        opacity: 0,
-        transform: "translateY(14px)",
-      }}
     >
-      <TiltCard project={project} tiltIntensity={tiltIntensity} lift={lift} />
-    </motion.div>
-  )
-}
-
-/* -------------------- 3D Tilt (no library) -------------------- */
-function TiltCard({ project, tiltIntensity = 14, lift = 7 }) {
-  const cardRef = useRef(null)
-  const [style, setStyle] = useState({})
-  const [isHover, setIsHover] = useState(false)
-
-  const base = useMemo(
-    () => ({
-      transition: isHover
-        ? "transform 70ms linear"
-        : "transform 520ms cubic-bezier(.2,.8,.2,1)",
-    }),
-    [isHover]
-  )
-
-  const onMove = (e) => {
-    const el = cardRef.current
-    if (!el) return
-
-    const r = el.getBoundingClientRect()
-    const x = e.clientX - r.left
-    const y = e.clientY - r.top
-
-    const rotateY = ((x - r.width / 2) / r.width) * tiltIntensity
-    const rotateX = -((y - r.height / 2) / r.height) * tiltIntensity
-
-    setIsHover(true)
-    setStyle({
-      transform: `perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-${lift}px)`,
-    })
-  }
-
-  const onLeave = () => {
-    setIsHover(false)
-    setStyle({
-      transform: "perspective(1100px) rotateX(0deg) rotateY(0deg) translateY(0px)",
-    })
-  }
-
-  return (
-    <div style={{ perspective: "1100px" }}>
       <div
-        ref={cardRef}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        className={[
-          "group relative overflow-hidden bg-white border border-black/10",
-          "shadow-[0_18px_55px_rgba(0,0,0,0.10)]",
-          "will-change-transform",
-        ].join(" ")}
-        style={{ ...base, ...style }}
+        onMouseMove={tilt.onMove}
+        onMouseLeave={tilt.onLeave}
+        style={tilt.style}
+        className="group relative overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_20px_60px_-40px_rgba(0,0,0,0.4)] transition-all duration-300"
       >
-        {/* Image area */}
+        {/* Image */}
         <div className="relative h-72 w-full overflow-hidden">
           <img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.09]"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
             loading="lazy"
           />
 
-          {/* ✅ Premium glass overlay with description */}
-          <div className="pointer-events-none absolute inset-0 opacity-0 transition-all duration-300 group-hover:opacity-100">
-            {/* dark gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
+          {/* Soft dark overlay on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
 
-            {/* glass panel */}
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <div className="translate-y-5 transition-transform duration-300 group-hover:translate-y-0">
-                <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-md">
-                  <p className="text-[11px] tracking-wide text-white/70">{project.location}</p>
-                  <h3 className="mt-1 text-base font-semibold text-white">{project.title}</h3>
-                  {project.desc ? (
-                    <p className="mt-2 text-xs leading-5 text-white/85 line-clamp-3">
-                      {project.desc}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
+          {/* Glass hover description */}
+          <div className="absolute inset-x-0 bottom-0 p-5 opacity-0 translate-y-6 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            <div className="rounded-xl border border-white/50 bg-white/70 backdrop-blur-md p-4 shadow-md">
+              <p className="text-xs text-black/50">{project.location}</p>
+              <h3 className="mt-1 text-base font-semibold text-black/85">
+                {project.title}
+              </h3>
+              {project.desc && (
+                <p className="mt-2 text-xs text-black/65 line-clamp-3">
+                  {project.desc}
+                </p>
+              )}
             </div>
-
-            {/* subtle shine */}
-            <div className="absolute inset-0 opacity-70">
-              <div className="absolute -left-1/2 top-[-40%] h-[220%] w-[150%] rotate-12 bg-gradient-to-r from-transparent via-white/18 to-transparent" />
-            </div>
-          </div>
-
-          {/* edge highlight on hover */}
-          <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100">
-            <div className="absolute inset-0 ring-1 ring-white/10" />
           </div>
         </div>
 
-        {/* Bottom info (HIDES on hover) */}
-        <div className="bg-[#f4f5f7] px-6 py-6 transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-5">
-          <p className="text-xs tracking-wide text-black/55">{project.location}</p>
-          <h3 className="mt-2 text-lg font-semibold text-black/85">{project.title}</h3>
-        </div>
-
-        {/* premium outer ring */}
-        <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
-          <div className="absolute inset-0 ring-1 ring-black/15" />
+        {/* Bottom content */}
+        <div className="px-6 py-6 bg-[#f4f5f7] transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-6">
+          <p className="text-xs text-black/50">{project.location}</p>
+          <h3 className="mt-2 text-lg font-semibold text-black/85">
+            {project.title}
+          </h3>
         </div>
       </div>
 
-      <div className="h-4" />
-    </div>
+      {/* Shadow base */}
+      <div className="pointer-events-none mx-auto mt-4 h-4 w-[70%] rounded-full bg-black/10 blur-xl" />
+    </motion.div>
   )
+}
+
+/* ---------------- Tilt (React 19 safe) ---------------- */
+
+function useTilt(max = 6) {
+  const [style, setStyle] = useState({
+    transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+  })
+
+  const onMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    const midX = rect.width / 2
+    const midY = rect.height / 2
+
+    const rY = ((x - midX) / midX) * max
+    const rX = -((y - midY) / midY) * max
+
+    setStyle({
+      transform: `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg)`,
+    })
+  }
+
+  const onLeave = () => {
+    setStyle({
+      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+      transition: "transform 220ms ease",
+    })
+    setTimeout(() => {
+      setStyle({
+        transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+      })
+    }, 230)
+  }
+
+  return { style, onMove, onLeave }
 }
